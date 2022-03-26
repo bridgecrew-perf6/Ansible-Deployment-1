@@ -88,7 +88,7 @@ if [ -d "$GP_PATH" ]; then
     run_cmd rm -rf $GP_PATH;
 fi
 
-# Clone SB repo
+# Clone GP repo
 run_cmd mkdir -p /srv/git
 run_cmd git clone --branch master "${GP_REPO}" "$GP_PATH"
 

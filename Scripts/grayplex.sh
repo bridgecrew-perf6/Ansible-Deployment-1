@@ -24,7 +24,7 @@ fi
 # Scripts
 ################################
 
-source /srv/git/Ansible-Deployment/scripts/yaml.sh
+source /srv/git/Ansible-Deployment/Scripts/yaml.sh
 create_variables /srv/git/Ansible-Deployment/accounts.yml
 
 ################################
@@ -118,7 +118,7 @@ install () {
     # https://stackoverflow.com/a/31736999
     readarray -t tags < <(printf '%s\n' "${tags_tmp[@]}" | awk '!x[$0]++')
 
-    # Build SB/CM tag arrays
+    # Build GP/CM tag arrays
     local tags_grayplex
 
     for i in "${!tags[@]}"
@@ -174,7 +174,7 @@ update () {
 
 gp-update () {
 
-    echo -e "Updating sb...\n"
+    echo -e "Updating gp...\n"
 
     cd "${GP_REPO_PATH}" || exit
 

@@ -57,7 +57,7 @@ $VERBOSE || exec &>/dev/null
 
 $VERBOSE && echo "git branch selected: $BRANCH"
 
-## Clone Saltbox and pull latest commit
+## Clone Grayplex and pull latest commit
 if [ -d "$GRAYPLEX_PATH" ]; then
     if [ -d "$GRAYPLEX_PATH/.git" ]; then
         cd "$GRAYPLEX_PATH" || exit
@@ -89,7 +89,7 @@ else
     $VERBOSE && echo "git branch: $(git rev-parse --abbrev-ref HEAD)"
 fi
 
-## Copy settings and config files into Grayplexx folder
+## Copy settings and config files into Grayplex folder
 shopt -s nullglob
 for i in "$GRAYPLEX_PATH"/defaults/*.default; do
     if [ ! -f "$GRAYPLEX_PATH/$(basename "${i%.*}")" ]; then
