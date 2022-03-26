@@ -1,0 +1,86 @@
+---
+- hosts: localhost
+  vars_files:
+    - ['accounts.yml', 'defaults/accounts.yml.default']
+    - ['settings.yml', 'defaults/settings.yml.default']
+    - ['adv_settings.yml', 'defaults/adv_settings.yml.default']
+    - ['backup_config.yml', 'defaults/backup_config.yml.default']
+    - ['providers.yml', 'defaults/providers.yml.default']
+  roles:
+    - { role: settings, tags: ['settings'] }
+    - { role: sanity_check, tags: ['sanity_check'] }
+    - { role: pre_tasks, tags: ['pre_tasks'] }
+    - { role: backup, tags: ['backup'] }
+    - { role: restore, tags: ['restore'] }
+    # Core
+    - { role: kernel, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'preinstall', 'kernel'] }
+    - { role: hetzner, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'preinstall', 'hetzner'] }
+    - { role: user, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'preinstall', 'user'] }
+    - { role: shell, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'preinstall', 'shell'] }
+    - { role: rclone, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'preinstall', 'rclone'] }
+    - { role: system, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'system'] }
+    - { role: common, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'common'] }
+    - { role: motd, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'motd'] }
+    - { role: docker, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'docker'] }
+    - { role: nvidia, tags: ['core', 'saltbox', 'mediabox', 'nvidia'], when: ['use_nvidia'] }
+    - { role: remote, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'mounts', 'mounts_override'], when: ['use_remote'] }
+    - { role: unionfs, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'mounts', 'mounts_override'] }
+    - { role: scripts, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'scripts'] }
+    - { role: sandbox, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'sandbox'] }
+    - { role: traefik, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'traefik', 'traefik_reset_certs'], when: ['reverse_proxy_is_enabled'] }
+    - { role: cloudflare, tags: ['core', 'saltbox', 'mediabox', 'feederbox', 'cloudflare'], when: ['cloudflare_is_enabled'] }
+    # Apps Start
+    - { role: media_server, tags: ['saltbox', 'mediabox', 'media-server'] }
+    - { role: tautulli, tags: ['saltbox', 'mediabox', 'tautulli'] }
+    - { role: overseerr, tags: ['saltbox', 'mediabox', 'overseerr'] }
+    - { role: portainer, tags: ['saltbox', 'feederbox', 'portainer'] }
+    - { role: organizr, tags: ['saltbox', 'feederbox', 'organizr'] }
+    - { role: cloudplow, tags: ['saltbox', 'feederbox', 'cloudplow'], when: ['use_remote'] }
+    - { role: nzbget, tags: ['saltbox', 'feederbox', 'nzbget'], when: ['use_nzbs'] }
+    - { role: rutorrent, tags: ['saltbox', 'feederbox', 'rutorrent'], when: ['use_torrents'] }
+    - { role: jackett, tags: ['saltbox', 'feederbox', 'jackett'], when: ['use_torrents'] }
+    - { role: nzbhydra2, tags: ['saltbox', 'feederbox', 'nzbhydra2'], when: ['use_nzbs'] }
+    - { role: sonarr, tags: ['saltbox', 'feederbox', 'sonarr'] }
+    - { role: radarr, tags: ['saltbox', 'feederbox', 'radarr'] }
+    - { role: lidarr, tags: ['saltbox', 'feederbox', 'lidarr'] }
+    - { role: iperf3, tags: ['saltbox', 'mediabox', 'feederbox', 'iperf3'] }
+    - { role: nethogs, tags: ['saltbox', 'mediabox', 'feederbox', 'nethogs'] }
+    - { role: glances, tags: ['saltbox', 'mediabox', 'feederbox', 'glances'] }
+    - { role: btop, tags: ['saltbox', 'mediabox', 'feederbox', 'btop'] }
+    - { role: asshama, tags: ['asshama'] }
+    - { role: authelia, tags: ['authelia'] }
+    - { role: autoheal, tags: ['autoheal'] }
+    - { role: autoscan, tags: ['autoscan'] }
+    - { role: bazarr, tags: ['bazarr'] }
+    - { role: btrfsmaintenance, tags: ['btrfsmaintenance'] }
+    - { role: ddclient, tags: ['ddclient'] }
+    - { role: deluge, tags: ['deluge'] }
+    - { role: emby, tags: ['emby'] }
+    - { role: jellyfin, tags: ['jellyfin'] }
+    - { role: netdata, tags: ['netdata'] }
+    - { role: nginx, tags: ['nginx'] }
+    - { role: nzbthrottle, tags: ['nzbthrottle'] }
+    - { role: petio, tags: ['petio'] }
+    - { role: plex, tags: ['plex'] }
+    - { role: plex_autoscan, tags: ['plex_autoscan'] }
+    - { role: prowlarr, tags: ['prowlarr'] }
+    - { role: qbittorrent, tags: ['qbittorrent'] }
+    - { role: readarr, tags: ['readarr'] }
+    - { role: redis, tags: ['redis'] }
+    - { role: sabnzbd, tags: ['sabnzbd'] }
+    - { role: sstv, tags: ['sstv'] }
+    - { role: subliminal, tags: ['subliminal'] }
+    - { role: trackarr, tags: ['trackarr'] }
+    - { role: traktarr, tags: ['traktarr'] }
+    - { role: transfer, tags: ['transfer'] }
+    - { role: yyq, tags: ['yyq'] }
+    # Apps End
+    - { role: custom, tags: ['custom'] }
+    - { role: hetzner_nfs, tags: ['hetzner_nfs_server', 'hetzner_nfs_server_uninstall', 'hetzner_nfs_client_mount', 'hetzner_nfs_client_unmount'] }
+    - { role: mariadb, tags: ['mariadb'] }
+    - { role: mongodb, tags: ['mongodb'] }
+    - { role: plex_auth_token, tags: ['plex_auth_token'] }
+    - { role: plex_extra_tasks, tags: ['plex-extra-tasks'] }
+    - { role: plex_plugins/sub_zero, tags: ['plex-plugins-sub-zero', 'plex-plugins-sub-zero-reinstall'] }
+    - { role: plex_plugins/webtools, tags: ['plex-plugins-webtools', 'plex-plugins-webtools-reinstall'] }
+    - { role: saltbox_mod, tags: ['saltbox_mod'] }
