@@ -1,0 +1,12 @@
+---
+downloads:
+  nzbs: /mnt/unionfs/downloads/nzbs
+  torrents: /mnt/unionfs/downloads/torrents
+transcodes: /mnt/local/transcodes
+rclone:
+  version: latest
+  remote: google
+shell: bash
+authelia:
+  master: yes
+  subdomain: login
